@@ -1,0 +1,339 @@
+/* ==========================================
+   RENK PALETİ KİLİDİ & CTA RENGİ
+========================================== */
+:root {
+  --primary: #1E4233;   /* Koyu Orman Yeşili */
+  --secondary: #869D8A; /* Adaçayı Yeşili */
+  --text: #12241C;      /* Koyu Çam */
+  --bg: #F5F4EF;        /* Sıcak Krem */
+  --neon: #FF5E00;      /* Dönüşüm Odaklı Neon Turuncu */
+}
+
+/* ==========================================
+   TEMEL RESET & TİPOGRAFİ
+========================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+button, input, textarea { font: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* ==========================================
+   ÖZEL EFEKTLER (NEON PARLAMA & 45 DERECE KESİM)
+========================================== */
+/* Neon Turuncu Parlama Efekti ve Beyaz Metin */
+.glow-btn {
+  position: relative;
+  background-color: var(--neon) !important;
+  color: #FFFFFF !important; /* Bembeyaz Metin */
+  box-shadow: 0 0 15px rgba(255, 94, 0, 0.6), 0 0 30px rgba(255, 94, 0, 0.4);
+  animation: pulseGlowOrange 2s infinite alternate;
+  border: 2px solid var(--bg) !important;
+}
+
+@keyframes pulseGlowOrange {
+  from { box-shadow: 0 0 10px rgba(255, 94, 0, 0.5); }
+  to { box-shadow: 0 0 25px rgba(255, 94, 0, 0.9), 0 0 45px rgba(255, 94, 0, 0.7); }
+}
+
+.glow-text {
+  color: var(--neon) !important;
+  text-shadow: 0 0 15px rgba(255, 94, 0, 0.7);
+}
+
+/* Premium ve teknik bir görünüm için 45 derecelik çapraz imza kesimi */
+.tech-cut {
+  border-radius: 0;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+/* ==========================================
+   HEADER & MENÜ
+========================================== */
+.header {
+  background-color: var(--primary);
+  color: var(--bg);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--secondary);
+}
+
+.logo { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.5px; }
+
+.mobile-menu-btn {
+  background: none; border: none; color: var(--bg);
+  font-size: 1.75rem; cursor: pointer; padding: 0;
+}
+
+.nav-menu {
+  width: 100%; display: none; flex-direction: column;
+  gap: 1rem; padding-top: 1.5rem; padding-bottom: 0.5rem; text-align: center;
+}
+
+.nav-menu.open { display: flex; }
+.nav-menu a { color: var(--bg); font-weight: 600; font-size: 1.1rem; padding: 0.5rem; }
+
+.nav-call-btn {
+  border-radius: 8px; margin-top: 0.5rem; font-weight: 800 !important;
+}
+
+/* ==========================================
+   ALT SAYFA BAŞLIKLARI (PAGE HEADER)
+========================================== */
+.page-header {
+  background-color: var(--primary);
+  color: var(--bg);
+  text-align: center;
+  padding: 4rem 1.5rem;
+  border-bottom: 3px solid var(--secondary);
+}
+
+.page-header h1 { font-size: 2.5rem; margin: 0 0 1rem 0; font-weight: 900; }
+.page-header p { font-size: 1.15rem; margin: 0; opacity: 0.9; font-weight: 500;}
+
+/* ==========================================
+   ANA SAYFA - HERO BÖLÜMÜ
+========================================== */
+.hero-with-bg {
+  position: relative;
+  background-image: url('/hero-arkaplan.jpg');
+  background-size: cover;
+  background-position: center;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+  border-bottom: 2px solid var(--secondary);
+}
+
+.hero-with-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(30, 66, 51, 0.88); /* Metni net okutmak için güçlü karartma */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.75rem;
+  padding: 0 1.5rem;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem; margin: 0; line-height: 1.15; color: var(--bg); font-weight: 900;
+}
+
+.hero-content p {
+  font-size: 1.15rem; margin: 0; max-width: 700px; color: var(--bg); font-weight: 500; opacity: 0.95;
+}
+
+.hero-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+  padding: 1.25rem 2.5rem; border-radius: 8px; font-size: 1.35rem; font-weight: 900;
+  width: 100%; max-width: 350px;
+}
+
+/* Çevrimiçi Kutusu */
+.online-box {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background-color: rgba(18, 36, 28, 0.7);
+  padding: 0.5rem 1.25rem; border-radius: 50px; margin-top: 0.5rem;
+  border: 1px solid var(--secondary);
+}
+
+.online-dot {
+  width: 10px; height: 10px; background-color: #F5F4EF; border-radius: 50%;
+  animation: blinkDot 1.5s infinite; box-shadow: 0 0 8px #F5F4EF;
+}
+
+@keyframes blinkDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.online-text { font-size: 0.9rem; color: var(--bg); font-weight: 700; letter-spacing: 0.5px; }
+
+/* ==========================================
+   HİZMETLER & KARTLAR
+========================================== */
+.services { background-color: var(--bg); text-align: center; padding: 4rem 1.5rem; }
+.services-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+
+.service-card {
+  background-color: var(--bg); color: var(--text); border-radius: 12px;
+  border: 2px solid var(--secondary); text-align: left; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.clickable-card { cursor: pointer; transition: transform 0.2s; }
+.clickable-card:hover { transform: translateY(-5px); }
+
+.service-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--secondary); }
+.service-content { padding: 1.5rem; }
+.service-content h3 { margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.25rem; font-weight: 900; }
+.click-to-read { margin: 0; color: var(--secondary); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; }
+
+/* ==========================================
+   GALERİ (İŞ ÖRNEKLERİ)
+========================================== */
+.gallery { background-color: var(--bg); text-align: center; padding: 4rem 1.5rem; }
+.gallery-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+
+.gallery-card {
+  background-color: var(--bg); border: 2px solid var(--secondary);
+  border-radius: 12px; overflow: hidden; text-align: left;
+}
+
+.gallery-img { width: 100%; height: 260px; object-fit: cover; border-bottom: 2px solid var(--secondary); }
+.gallery-content { padding: 1.25rem; }
+.gallery-content h4 { margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.15rem; font-weight: 800; }
+.gallery-content p { margin: 0; font-size: 0.95rem; color: var(--text); font-weight: 500; }
+
+/* ==========================================
+   SEO İLÇELER ALANI
+========================================== */
+.seo-section { background-color: var(--bg); text-align: center; padding: 4rem 1.5rem; }
+.seo-section h2 { color: var(--primary); font-size: 1.75rem; margin-top: 0; font-weight: 900;}
+.seo-desc { max-width: 800px; margin: 0 auto 2rem auto; font-weight: 500; }
+
+.districts-container {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; max-width: 1000px; margin: 0 auto;
+}
+
+.district-tag {
+  background-color: var(--primary); color: var(--bg);
+  padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 700;
+  border: 1px solid var(--secondary);
+  /* 45 Derecelik Kesim Burada Uygulandı */
+  border-radius: 0;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: background-color 0.2s;
+}
+.district-tag:hover { background-color: var(--secondary); color: var(--primary); }
+
+/* ==========================================
+   SIK SORULAN SORULAR (SSS)
+========================================== */
+.faq { background-color: var(--primary); color: var(--bg); text-align: center; padding: 4rem 1.5rem; }
+.faq h2 { font-size: 2rem; margin-top: 0; margin-bottom: 2.5rem; color: var(--secondary); font-weight: 900;}
+.faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+
+.faq-item { background-color: var(--bg); border-radius: 8px; overflow: hidden; text-align: left; }
+.faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; color: var(--primary); font-weight: 800; font-size: 1.1rem; }
+.faq-item.active .faq-question { background-color: var(--secondary); }
+.faq-icon { font-size: 1.5rem; font-weight: 900; }
+.faq-answer { padding: 1.25rem 1.5rem; color: var(--text); font-weight: 500; border-top: 1px solid var(--secondary); }
+
+/* ==========================================
+   İLETİŞİM SAYFASI (AYRI SAYFA İÇİN)
+========================================== */
+.contact-page-section { padding: 4rem 1.5rem; background-color: var(--bg); display: flex; justify-content: center; }
+.contact-card-large {
+  background-color: var(--primary); color: var(--bg); padding: 3rem 2rem;
+  border-radius: 16px; text-align: center; max-width: 600px; width: 100%;
+  border: 3px solid var(--secondary);
+  box-shadow: 0 15px 30px rgba(18, 36, 28, 0.4);
+}
+.contact-icon { font-size: 4rem; margin-bottom: 1rem; }
+.contact-card-large h2 { margin: 0 0 1rem 0; color: var(--bg); font-size: 2rem; font-weight: 900;}
+.contact-card-large p { font-size: 1.1rem; font-weight: 500; }
+.contact-number-large { display: block; font-size: 3rem; font-weight: 900; margin: 1.5rem 0; text-decoration: none; }
+.contact-address { font-size: 1.15rem; margin-bottom: 2.5rem; color: var(--bg); opacity: 0.8;}
+.contact-action-btn { display: inline-block; padding: 1.25rem 2rem; font-size: 1.25rem; font-weight: 900; border-radius: 8px; }
+
+/* ==========================================
+   GENİŞLETİLMİŞ SEO FOOTER
+========================================== */
+.footer {
+  background-color: var(--primary); color: var(--secondary); text-align: left;
+  padding: 4rem 1.5rem 6rem 1.5rem; font-size: 0.95rem; border-top: 3px solid var(--text);
+}
+
+.footer-content {
+  display: grid; grid-template-columns: 1fr; gap: 2.5rem; max-width: 1100px; margin: 0 auto 3rem auto;
+}
+
+.footer-section h3 { color: var(--bg); margin-top: 0; margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 800; }
+.footer-section p { margin: 0; font-weight: 500; line-height: 1.6; }
+.footer-section a { display: block; color: var(--secondary); margin-bottom: 0.75rem; font-weight: 600; }
+.footer-section a:hover { color: var(--bg); text-decoration: underline; }
+
+.footer-bottom {
+  text-align: center; border-top: 1px solid var(--text); padding-top: 2rem;
+  display: flex; flex-direction: column; gap: 0.5rem; max-width: 1100px; margin: 0 auto;
+}
+.footer-bottom p { margin: 0; }
+
+.developer-signature {
+  font-weight: 900; font-size: 0.8rem; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--secondary); text-decoration: underline;
+}
+
+/* ==========================================
+   SABİT ARAMA BUTONU & MODAL
+========================================== */
+.floating-cta {
+  position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px;
+  border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1000;
+}
+.floating-icon { font-size: 1.75rem; }
+
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(30, 66, 51, 0.9); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 1.5rem;
+}
+.modal-content {
+  background-color: var(--bg); width: 100%; max-width: 450px; overflow: hidden;
+  border: 3px solid var(--secondary); display: flex; flex-direction: column;
+  /* Modal için özel 45 derece kesim */
+  border-radius: 0;
+  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+}
+.modal-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 3px solid var(--secondary); }
+.modal-content h3 { color: var(--primary); font-size: 1.5rem; margin: 1.5rem 1.5rem 0.5rem 1.5rem; font-weight: 900; }
+.modal-content p { color: var(--text); margin: 0 1.5rem 1.5rem 1.5rem; font-weight: 500; font-size: 1.05rem; }
+.modal-actions { display: flex; flex-direction: column; gap: 0.75rem; padding: 0 1.5rem 1.5rem 1.5rem; }
+.modal-call-btn { padding: 1rem; border-radius: 8px; font-weight: 900; font-size: 1.15rem; text-align: center; }
+.modal-close-btn { background-color: var(--text); color: var(--bg); padding: 1rem; border-radius: 8px; font-weight: 900; font-size: 1.15rem; border: none; cursor: pointer; }
+
+/* ==========================================
+   MASAÜSTÜ (PC VE TABLET) DÜZENLEMELERİ
+========================================== */
+@media (min-width: 768px) {
+  .mobile-menu-btn { display: none; }
+  .nav-menu { display: flex; width: auto; flex-direction: row; padding: 0; align-items: center; }
+  .nav-call-btn { margin-top: 0; margin-left: 1rem; }
+  
+  .services-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  
+  .footer-content { grid-template-columns: repeat(3, 1fr); text-align: left; }
+  .modal-actions { flex-direction: row; }
+  .modal-call-btn, .modal-close-btn { flex: 1; }
+}
+
+@media (min-width: 1024px) {
+  .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+  .hero-content h1 { font-size: 3.5rem; }
+}
