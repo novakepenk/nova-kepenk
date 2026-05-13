@@ -10,56 +10,67 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Menü kapatma ve üste kaydırma efekti
   useEffect(() => {
     setIsMenuOpen(false);
     window.scrollTo(0, 0);
   }, [location]);
 
   // ==========================================
-  // CLICKGUARD RADAR SİSTEMİ (TÜM SİTEYİ KORUR)
+  // CLICKGUARD RADAR & GA4 İSPİYONCU SİSTEMİ
   // ==========================================
   useEffect(() => {
-    // 1. URI'den gclid (Google Click ID) parametresini yakala
     const urlParams = new URLSearchParams(window.location.search);
     const gclid = urlParams.get('gclid');
 
-    // 2. Eğer gclid yoksa (organik trafikse) pas geç
+    // Eğer gclid yoksa (organik trafikse) sistemi yorma
     if (!gclid) return;
 
-    // 3. Render.com üzerindeki yeni İstanbul canlı sunucu adresimiz
     const BACKEND_URL = 'https://kepentra-clickguard-istanbul.onrender.com/api/track';
 
-    // 4. Avın verilerini topla
     const data = {
       gclid: gclid,
       userAgent: navigator.userAgent,
-      fingerprint: btoa(navigator.userAgent + window.screen.width + window.screen.height).substring(0, 20)
+      // Basit bir parmak izi oluşturup backend'deki cihaz banını aktif ediyoruz
+      fingerprint: btoa(navigator.userAgent + window.screen.width).substring(0, 20)
     };
 
-    // 5. Veriyi backend'e fırlat
     fetch(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })
-    .then(() => console.log('ClickGuard: Tüm Site Kalkanı Devrede - Av Yakalandı'))
-    .catch(err => console.error('ClickGuard: Sunucuya ulaşılamadı', err));
-  }, []); // Sadece site ilk açıldığında çalışır
+    .then(response => response.json())
+    .then(result => {
+      console.log('ClickGuard: Durum ->', result.status);
+      
+      // KRİTİK: Eğer backend 'Normal' dışında bir durum dönerse (IP BAN, CİHAZ BAN vb.)
+      // Bu zombiyi GA4 üzerinden Google Ads'e ispiyonluyoruz.
+      if (result.status && result.status !== 'Normal') {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'fraud_detected', {
+            'event_category': 'Security',
+            'event_label': result.status,
+            'non_interaction': true // Hemen çıkarsa istatistiği bozmasın
+          });
+          console.log('GA4: Saldırgan Google Ads havuzuna ispiyonlandı!');
+        }
+      }
+    })
+    .catch(err => console.error('ClickGuard Radar Hatası:', err));
+  }, []);
 
   return (
     <div className="app-container">
-      {/* HEADER VE MENÜ */}
       <header className="header">
         <Link to="/" className="logo" aria-label="Ana Sayfa">
           <img 
             src="/logo.png" 
             style={{ height: "80px", width: "auto", display: "block" }} 
-            alt="Logo"
+            alt="Nova Kepenk Logo"
           />
         </Link>
         
-        <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menüyü Aç">
+        <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? "✖" : "☰"}
         </button>
 
@@ -72,7 +83,6 @@ function App() {
         </nav>
       </header>
 
-      {/* SAYFALARIN DEĞİŞTİĞİ ANA EKRAN */}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -82,7 +92,6 @@ function App() {
         </Routes>
       </main>
 
-      {/* GENİŞLETİLMİŞ SEO FOOTER */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-section">
@@ -95,15 +104,7 @@ function App() {
             <Link to="/galeri">İş Örnekleri</Link>
             <Link to="/iletisim">İletişim</Link>
           </div>
-          <div className="footer-section">
-            <h3>Hizmetler (SEO)</h3>
-            <Link to="/hizmetler">Otomatik Kepenk Tamiri</Link>
-            <Link to="/hizmetler">Kepenk Motor Değişimi</Link>
-            <Link to="/hizmetler">Kumanda ve Alıcı Tamiri</Link>
-            <Link to="/hizmetler">Sıfır Kepenk Montajı</Link>
-          </div>
         </div>
-        
         <div className="footer-bottom">
           <p>&copy; 2026 Kepentra. Tüm Hakları Saklıdır.</p>
           <a href="https://denizdigitaloperate.com" target="_blank" rel="noopener noreferrer" className="developer-signature">
@@ -112,8 +113,7 @@ function App() {
         </div>
       </footer>
 
-      {/* SABİT ARAMA BUTONU */}
-      <a href="tel:05344428351" className="floating-cta glow-btn" aria-label="Acil Ara">
+      <a href="tel:05344428351" className="floating-cta glow-btn">
         <span className="floating-icon">📞</span>
       </a>
     </div>
