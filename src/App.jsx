@@ -10,20 +10,51 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Menü kapatma ve üste kaydırma efekti
   useEffect(() => {
     setIsMenuOpen(false);
     window.scrollTo(0, 0);
   }, [location]);
 
+  // ==========================================
+  // CLICKGUARD RADAR SİSTEMİ (TÜM SİTEYİ KORUR)
+  // ==========================================
+  useEffect(() => {
+    // 1. URI'den gclid (Google Click ID) parametresini yakala
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+
+    // 2. Eğer gclid yoksa (organik trafikse) pas geç
+    if (!gclid) return;
+
+    // 3. Render.com üzerindeki yeni İstanbul canlı sunucu adresimiz
+    const BACKEND_URL = 'https://kepentra-clickguard-istanbul.onrender.com/api/track';
+
+    // 4. Avın verilerini topla
+    const data = {
+      gclid: gclid,
+      userAgent: navigator.userAgent
+    };
+
+    // 5. Veriyi backend'e fırlat
+    fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => console.log('ClickGuard: Tüm Site Kalkanı Devrede - Av Yakalandı'))
+    .catch(err => console.error('ClickGuard: Sunucuya ulaşılamadı', err));
+  }, []); // Sadece site ilk açıldığında çalışır
+
   return (
     <div className="app-container">
       {/* HEADER VE MENÜ */}
       <header className="header">
-        {/* LOGO BURAYA EKLENDİ */}
         <Link to="/" className="logo" aria-label="Ana Sayfa">
           <img 
             src="/logo.png" 
             style={{ height: "80px", width: "auto", display: "block" }} 
+            alt="Logo"
           />
         </Link>
         
