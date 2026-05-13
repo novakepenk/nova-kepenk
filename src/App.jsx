@@ -33,7 +33,8 @@ function App() {
     // 4. Avın verilerini topla
     const data = {
       gclid: gclid,
-      userAgent: navigator.userAgent
+      userAgent: navigator.userAgent,
+      fingerprint: btoa(navigator.userAgent + window.screen.width + window.screen.height).substring(0, 20)
     };
 
     // 5. Veriyi backend'e fırlat
