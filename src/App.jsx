@@ -105,7 +105,7 @@ function App() {
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; 2026 Nova Kepenk. Tüm Hakları Saklıdır.</p>
+          <p>&copy; 2026 Kepentra. Tüm Hakları Saklıdır.</p>
           <a href="https://denizdigitaloperate.com" target="_blank" rel="noopener noreferrer" className="developer-signature">
             Developed by Deniz Digital Operate
           </a>
