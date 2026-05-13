@@ -1,10 +1,3 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VNRN998SG9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-VNRN998SG9');
-</script>
 <!doctype html>
 <html lang="tr">
   <head>
@@ -14,6 +7,58 @@
     <meta name="theme-color" content="#1E4233" />
     <title>Kepentra | Acil Kepenk Tamiri ve Servisi</title>
     <meta name="description" content="İstanbul geneli acil kepenk tamiri, motor değişimi ve servisi. Dükkanınız açık kalmasın, hemen arayın: 0534 442 83 51" />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VNRN998SG9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VNRN998SG9');
+
+      // ==========================================
+      // CLICKGUARD RADAR & İSPİYONCU SİSTEMİ
+      // ==========================================
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const gclid = urlParams.get('gclid');
+
+        // Sadece reklamdan geleni izle, organik trafiği yorma
+        if (!gclid) return;
+
+        const BACKEND_URL = 'https://kepentra-clickguard-istanbul.onrender.com/api/track';
+
+        const data = {
+          gclid: gclid,
+          userAgent: navigator.userAgent,
+          // Cihaz parmak izi (Backend'deki cihaz banı için şart)
+          fingerprint: btoa(navigator.userAgent + window.screen.width).substring(0, 20)
+        };
+
+        fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+          console.log('ClickGuard Durum:', result.status);
+          
+          // KRİTİK: Eğer backend 'Normal' dışında bir durum dönerse (Zombi/Saldırgan)
+          // Bu zombiyi GA4 üzerinden Google Ads'e ispiyonluyoruz.
+          if (result.status && result.status !== 'Normal') {
+            if (typeof gtag === 'function') {
+              gtag('event', 'fraud_detected', {
+                'event_category': 'Security',
+                'event_label': result.status,
+                'non_interaction': true
+              });
+              console.log('GA4: Saldırgan Google Ads havuzuna bildirildi!');
+            }
+          }
+        })
+        .catch(err => console.error('Radar Hatası:', err));
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
