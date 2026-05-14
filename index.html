@@ -13,7 +13,17 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+
+      // 1. Mevcut Analytics (GA4) Kodu
       gtag('config', 'G-VNRN998SG9');
+
+      // 2. Google Ads Ana Kodu
+      gtag('config', 'AW-18109690452');
+
+      // 3. Google Ads Telefon Emülatör Tuzağı (Akıllı Numara)
+      gtag('config', 'AW-18109690452/ulwaCPWvja0cENTkr7tD', {
+        'phone_conversion_number': '0534 442 83 51'
+      });
 
       // ==========================================
       // CLICKGUARD RADAR & İSPİYONCU SİSTEMİ (SON NİHAİ SÜRÜM)
@@ -47,7 +57,7 @@
         .then(result => {
           console.log('ClickGuard Durum:', result.status);
           
-          // Zombi tespiti ve GA4'e ispiyonlama
+          // Zombi tespiti ve GA4/Ads'e ispiyonlama
           if (result.status && result.status !== 'Normal') {
             if (typeof gtag === 'function') {
               gtag('event', 'fraud_detected', {
