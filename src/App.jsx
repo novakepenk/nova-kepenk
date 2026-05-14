@@ -15,50 +15,6 @@ function App() {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // ==========================================
-  // CLICKGUARD RADAR & GA4 İSPİYONCU SİSTEMİ
-  // ==========================================
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const gclid = urlParams.get('gclid');
-
-    // Eğer gclid yoksa (organik trafikse) sistemi yorma
-    if (!gclid) return;
-
-    const BACKEND_URL = 'https://kepentra-clickguard-istanbul.onrender.com/api/track';
-
-    const data = {
-      gclid: gclid,
-      userAgent: navigator.userAgent,
-      // Basit bir parmak izi oluşturup backend'deki cihaz banını aktif ediyoruz
-      fingerprint: btoa(navigator.userAgent + window.screen.width).substring(0, 20)
-    };
-
-    fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-      console.log('ClickGuard: Durum ->', result.status);
-      
-      // KRİTİK: Eğer backend 'Normal' dışında bir durum dönerse (IP BAN, CİHAZ BAN vb.)
-      // Bu zombiyi GA4 üzerinden Google Ads'e ispiyonluyoruz.
-      if (result.status && result.status !== 'Normal') {
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'fraud_detected', {
-            'event_category': 'Security',
-            'event_label': result.status,
-            'non_interaction': true // Hemen çıkarsa istatistiği bozmasın
-          });
-          console.log('GA4: Saldırgan Google Ads havuzuna ispiyonlandı!');
-        }
-      }
-    })
-    .catch(err => console.error('ClickGuard Radar Hatası:', err));
-  }, []);
-
   return (
     <div className="app-container">
       <header className="header">
