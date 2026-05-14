@@ -16,21 +16,25 @@
       gtag('config', 'G-VNRN998SG9');
 
       // ==========================================
-      // CLICKGUARD RADAR & İSPİYONCU SİSTEMİ
+      // CLICKGUARD RADAR & İSPİYONCU SİSTEMİ (SON NİHAİ SÜRÜM)
       // ==========================================
       (function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const gclid = urlParams.get('gclid');
+        // 1. ÇİFT TIKLAMA KİLİDİ (React Double-Render Önlemi)
+        if (sessionStorage.getItem('hoxCorp_radar_lock')) return;
+        sessionStorage.setItem('hoxCorp_radar_lock', 'true');
+        setTimeout(() => sessionStorage.removeItem('hoxCorp_radar_lock'), 2000);
 
-        // Sadece reklamdan geleni izle, organik trafiği yorma
-        if (!gclid) return;
+        const urlParams = new URLSearchParams(window.location.search);
+        const gclid = urlParams.get('gclid') || urlParams.get('gad_source');
+
+        // KRİTİK DEĞİŞİKLİK: "if (!gclid) return;" satırını tamamen sildik.
+        // Artık organik veya parametresiz giren herkes backend'e bildirilecek!
 
         const BACKEND_URL = 'https://kepentra-clickguard-istanbul.onrender.com/api/track';
 
         const data = {
-          gclid: gclid,
+          gclid: gclid || "", // gclid yoksa boş gönderir, backend bunu "PARAMETRESIZ_GIRIS" olarak işler
           userAgent: navigator.userAgent,
-          // Cihaz parmak izi (Backend'deki cihaz banı için şart)
           fingerprint: btoa(navigator.userAgent + window.screen.width).substring(0, 20)
         };
 
@@ -43,8 +47,7 @@
         .then(result => {
           console.log('ClickGuard Durum:', result.status);
           
-          // KRİTİK: Eğer backend 'Normal' dışında bir durum dönerse (Zombi/Saldırgan)
-          // Bu zombiyi GA4 üzerinden Google Ads'e ispiyonluyoruz.
+          // Zombi tespiti ve GA4'e ispiyonlama
           if (result.status && result.status !== 'Normal') {
             if (typeof gtag === 'function') {
               gtag('event', 'fraud_detected', {
